@@ -57,13 +57,14 @@
   
   \draw [line width=0.8mm, -{Stealth[length=8mm, round]}, shorten >= 0.1cm, shorten <= 1.5cm] (sample_stack.south) -- (unet) node[midway, fill = white, anchor = center, text = black, yshift = -0.3cm] {\large Predictor variables};
 
-  \node (sic_target) at (unet -| sic) {\includegraphics[width=.25\textwidth]{sic_target.pdf}};
-  \node [above = 0cm of sic_target] (sic_target_name) {\large Target Ice Chart};
-  \draw [line width=0.8mm, -{Stealth[length=8mm, round]}, shorten >= 0.1cm, shorten <= 0.1cm] (sic_target.east) -- node [midway, above = 0.2cm, xshift = -0.2cm] {\large Target variable} (unet.west);
-
-  \node (sic_pred) at (unet -| aa_mask) {\includegraphics[width=.25\textwidth]{20220105.pdf}};
+  \node[below = 2cm of unet] (sic_pred) {\includegraphics[width=.25\textwidth]{20220105.pdf}};
   \node [above = 0cm of sic_pred] (sic_pred_name) {\large Predicted Ice Chart};
-  \draw [line width=0.8mm, -{Stealth[length=8mm, round]}, shorten >= 0.1cm, shorten <= 0.1cm] (unet.east) -- (sic_pred.west);
+  \draw [line width=0.8mm, -{Stealth[length=8mm, round]}, shorten >= 0.5cm, shorten <= 0.1cm] (unet.south) -- (sic_pred.north);
+
+  \node (sic_target) at (sic_pred -| sic) {\includegraphics[width=.25\textwidth]{sic_target.pdf}};
+  \node [above = 0cm of sic_target] (sic_target_name) {\large Target Ice Chart};
+  \draw [line width=0.8mm, -{Stealth[length=8mm, round]}, shorten >= 0.1cm, shorten <= 0.1cm] (sic_target.east) -- node [midway, above = 0.2cm, xshift = -0.2cm] {\large Target variable} (sic_pred.west);
+
 
     
 \end{tikzpicture}

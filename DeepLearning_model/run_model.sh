@@ -15,7 +15,7 @@
 
 #New Singularity definitions running on rhel8
 
-COMMAND='python -u /mnt/SimpleUNET/RunModel/run_model.py'
+COMMAND='python -u /mnt/SimpleUNET/RunModel/run_model.py 1'
 
 module use /modules/MET/rhel8/user-modules
 

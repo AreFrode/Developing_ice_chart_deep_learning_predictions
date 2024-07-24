@@ -160,6 +160,24 @@ def load_osisaf(yyyymmdd, lead_time, grid, PATH_TARGET, weights = None):
 
     return osisaf_sic, target_sic, yyyymmdd
 
+def load_freedrift(yyyymmdd, lead_time, grid, PATH_TARGET, weights = None):
+    PATH_FORECAST = f"/lustre/storeB/users/arefk/MScThesis_AreKvanum2022_SeaIceML/PhysicalModels/Data/{grid}_grid/freedrift/"
+
+    yyyymmdd_datetime = datetime.strptime(yyyymmdd, '%Y%m%d')
+    yyyymmdd_valid = (yyyymmdd_datetime + timedelta(days = lead_time)).strftime('%Y%m%d')
+
+    freedrift_path = glob.glob(f"{PATH_FORECAST}{yyyymmdd[:4]}/{yyyymmdd[4:6]}/freedrift_b{yyyymmdd}.nc")[0]
+
+    target_path = glob.glob(f"{PATH_TARGET}{yyyymmdd_valid[:4]}/{yyyymmdd_valid[4:6]}/target_v{yyyymmdd_valid}.nc")[0]
+
+    with Dataset(freedrift_path, 'r') as nc:
+        freedrift_sic = nc.variables['sic'][lead_time - 1, :, :]
+
+    with Dataset(target_path, 'r') as nc:
+        target_sic = nc.variables['sic'][:,:]
+
+    return freedrift_sic, target_sic, yyyymmdd
+
 def main():
     product = sys.argv[1]
     lead_time = int(sys.argv[2])
@@ -218,8 +236,11 @@ def main():
     elif product == 'amsr2_trend':
         load_func = load_amsr2_trend
 
-    elif product == 'ice_chart':
-        load_func = load_ice_charts
+    elif product == 'freedrift':
+        load_func = load_freedrift
+
+    # elif product == 'ice_chart':
+        # load_func = load_ice_charts
 
     else:
         print("No valid product supplied")
